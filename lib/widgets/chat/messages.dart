@@ -18,14 +18,17 @@ class Messages extends StatelessWidget {
             descending: true,
           )
           .snapshots(),
-      builder: (ctx,
-          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> chatSnapshot) {
+      builder: (
+        ctx,
+        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> chatSnapshot,
+      ) {
         if (chatSnapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-        final chatDocs = chatSnapshot.data!.docs;
+        var chatDocs = chatSnapshot.data?.docs ?? [];
+
         return ListView.builder(
           reverse: true,
           itemCount: chatDocs.length,
