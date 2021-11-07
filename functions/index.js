@@ -1,16 +1,16 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
+import { firestore } from "firebase-functions";
+import { initializeApp, messaging } from "firebase-admin";
 
-admin.initializeApp();
+initializeApp();
 
-exports.myFunction = functions.firestore
-  .document('chat/{message}')
+export const myFunction = firestore
+  .document("chat/{message}")
   .onCreate((snapshot, context) => {
-    return admin.messaging().sendToTopic('chat', {
+    return messaging().sendToTopic("chat", {
       notification: {
         title: snapshot.data().username,
         body: snapshot.data().text,
-        clickAction: 'FLUTTER_NOTIFICATION_CLICK',
+        clickAction: "FLUTTER_NOTIFICATION_CLICK",
       },
     });
   });
